@@ -1,7 +1,6 @@
 {% extends "index/index.html" %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
 {% endblock %}
 
 {% block content %}
@@ -10,6 +9,7 @@
 {
     -webkit-transform-style: preserve-3d;
     -webkit-perspective: 1000;
+    overflow: visible;
 }
 
 h1, h2, h3, h4, h5, h6, p, a, 
@@ -46,7 +46,7 @@ input, label, button, textarea, ul, li, label
     font-size:0;
     position:absolute;
     left:40%;
-    top:85%;
+    top:45%;
     width:350px;
     height:350px;
     -webkit-transform-style: preserve-3d;
@@ -69,11 +69,12 @@ input, label, button, textarea, ul, li, label
     position:absolute;
     display:block;
     top:-25%;
-    background:url({{ url_for('static', filename = 'images/texture.jpg') }});
+    background:url({{ url_for('static', filename = 'images/orange.jpg') }});
+    background-size:contain;
     left:-25%;
     width:150%;
     height:150%;
-    border: 5px dotted #ccc;
+    border: 5px  solid #eee;
     overflow:visible;
     -webkit-transform: translate3d(0,0,-1px);
     -webkit-transform-style: preserve-3d;
@@ -145,7 +146,7 @@ input, label, button, textarea, ul, li, label
     }
     .block-9
     {
-        top:80%;
+        top:50%;
         left:0;
         -webkit-transform: scaleZ(2.9);
     }
@@ -203,6 +204,8 @@ input, label, button, textarea, ul, li, label
 .building .top
 {
     background:rgba(255,212,38,1);
+    background:url({{ url_for('static', filename = 'images/roof.jpg') }});
+    background-size:contain;
     width:50px;
     height:50px;
     -webkit-transform: translate3d(0,0,50px);
@@ -210,14 +213,19 @@ input, label, button, textarea, ul, li, label
 .building .west
 {
     background:rgba(242,194,0,1);
+    background:url({{ url_for('static', filename = 'images/building.jpg') }});
+    background-size:contain;
     width:50px;
     height:50px;
     -webkit-transform-origin:0 0;
     -webkit-transform: rotate3d(0,1,0,-90deg);
+
 }
 .building .east
 {
     background:rgba(217,174,0,1);
+    background:url({{ url_for('static', filename = 'images/building-back-2.jpg') }});
+    background-size:contain;
     width:50px;
     height:50px;
     -webkit-transform-origin:100% 0;
@@ -226,6 +234,9 @@ input, label, button, textarea, ul, li, label
 .building .north
 {
     background:rgba(242,194,0,1);
+    background:url({{ url_for('static', filename = 'images/building-back-north.jpg') }});
+    background-size:contain;
+
     width:50px;
     height:50px;
     -webkit-transform-origin:0 0;
@@ -234,6 +245,8 @@ input, label, button, textarea, ul, li, label
 .building .south 
 {
     background:rgba(255,204,0,1);
+    background:url({{ url_for('static', filename = 'images/building-back-south.jpg') }});
+    background-size:contain;
     width:50px;
     height:50px;
     -webkit-transform-origin:100% 100%;
@@ -260,18 +273,23 @@ input, label, button, textarea, ul, li, label
         top:60%;
         left:40%;
         -webkit-transform:translateZ(.9px) rotate3d(0,0,1,90deg);
+        
     }
     .road-2
     {
         top:40%;
         left:20%;
         -webkit-transform: rotate3d(0,0,1,180deg);
+        background:url({{ url_for('static', filename = 'images/road.jpg') }});
+        background-size:contain;
     }
     .road-3
     {
         top:100%;
-        left:0;
+        left:-10%;
         -webkit-transform: rotate3d(0,0,1,180deg);
+        background:url({{ url_for('static', filename = 'images/road.jpg') }});
+        background-size:contain;
     }
 
 .car
@@ -380,9 +398,25 @@ input, label, button, textarea, ul, li, label
         width: 0px;
         display: none;
     }
+    .selector
+    {
+        border:2px #eee dotted;
+        width:25vw;
+        padding: 5px;
+        margin-left: 2%;
+    }
+    .jumbotron{
+        padding-left:10px;
+    }
+    body
+    {
+        background-color: white;
+        background:url({{ url_for('static', filename = 'images/blurred2.jpg') }});
+        background-size:cover;
+    }
     </style>
-    <div class="jumbotron" style="background-color: #1f2224; height: 20vmin;">
-    <h1 style="color:#eeeeee; margin-left: 10vmin;"> Available Rooms in {{ location }}</h1>
+    <div class="jumbotron">
+    <h1>Available Rooms in {{ location }}</h1>
     <form action="" method="post" name="createReservation2">
     {% if error %}
         <h5 style="color:red;">Error: {{ error }} </h5>
@@ -411,7 +445,7 @@ input, label, button, textarea, ul, li, label
 
 
 
-                {{ form.submit(id = "submitButton" ,class_="btn btn-default right-align", style="margin-left : 10vmin;") }}
+                {{ form.submit(id = "submitButton" ,class_="btn btn-default right-align") }}
     </form>
     </div>
     <div id="world" class="world">
@@ -477,11 +511,11 @@ input, label, button, textarea, ul, li, label
         $('.selector').empty();
         if(mapping[id-1]){
 
-        $('.selector').append("Room Number: " + mapping[id-1].name+"<br>Category:" + mapping[id-1].category + "<br>num_people:" + mapping[id-1].num_people+"<br>Cost:"+mapping[id-1].cost+"<br>Extra-Bed:" + mapping[id-1].Extra);
+        $('.selector').append("Room Number: " + mapping[id-1].name+"<br>Status: <span style = 'color: green'>Available </span><br> Category:" + mapping[id-1].category + "<br>num_people:" + mapping[id-1].num_people+"<br>Cost:"+mapping[id-1].cost+"<br>Extra-Bed:" + mapping[id-1].Extra);
     }
     else
     {
-        $('.selector').append("Sorry, already booked :( ");
+        $('.selector').append("<span style = 'color:red'> Sorry, already booked :( </span>");
         $(this).addClass('unavailable');
     }
 

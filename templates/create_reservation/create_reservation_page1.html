@@ -1,10 +1,33 @@
-{% extends "index/index.html" %}
-{% block head %}
-    {{ super() }}
+  
+
     <link rel="stylesheet" href="static/css/bootstrap.css">
-{% endblock %}
+     <title>Ceasar Palace</title>
+    <link type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='assets/css/main.css')}}" /> {{ moment.include_jquery() }} {{ moment.include_moment() }}
 
 {% block content %}
+ <div class="container">
+        <div class="header">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">Ceasar's</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li role="presentation" class="active"><a href="/">Home</a></li>
+                            {% if current_user.is_authenticated %}
+                            <li role="presentation"><a href="{{ url_for('user_page_app.logout') }}">Log Out</a></li>
+                            {% else %}
+                            <li role="presentation"><a href="{{ url_for('user_page_app.login') }}">Log In</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
     <div class="jumbotron" style="background-color: #1f2224;">
     {% if error %}
         <h5 style="color:red;">Error: {{ error }} </h5>
