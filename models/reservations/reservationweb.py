@@ -1,7 +1,7 @@
 from reservationservice import ReservationService
-
+from reservationdao import ReservationDao
 reservationService = ReservationService()
-
+reservationDao = ReservationDao()
 
 class ReservationWeb:
     def __init__(self):
@@ -10,6 +10,10 @@ class ReservationWeb:
     @classmethod
     def check_for_rooms(cls, start_date, end_date, location):
         rooms = reservationService.check_for_rooms(start_date, end_date, location)
+        return rooms
+    @classmethod
+    def get_all_rooms_by_location(cls,location):
+        rooms = reservationDao.get_all_rooms_by_location(location)
         return rooms
 
     @classmethod

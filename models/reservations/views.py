@@ -60,6 +60,7 @@ def create_reservation_page2():
     end_date = session['e_date']
     location = session['loc']
     available_rooms = reservationweb.check_for_rooms(start_date, end_date, location)
+    all_rooms = reservationweb.get_all_rooms_by_location(location)
     # s_rooms = available_rooms.__dict__
     # print s_rooms
     size = len(available_rooms)
@@ -84,7 +85,7 @@ def create_reservation_page2():
             return redirect(url_for('reservation_home_page_app.confirm_reservation'))
     return render_template('create_reservation/create_reservation_page2.html', form=form,
                            available_rooms=available_rooms,
-                           location=location, error=error)
+                           location=location, error=error,all_rooms=all_rooms)
 
 
 @reservation_home_page_app.route('/confirm-reservation', methods=['GET', 'POST'])

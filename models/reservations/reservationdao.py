@@ -54,7 +54,22 @@ class ReservationDao:
                             card_num, total_cost))
         cur.close()
         return reservation_list
-
+    @classmethod
+    def get_all_rooms_by_location(cls,location):
+        all_rooms=set()
+        cur = db.connection.cursor()
+        cur.execute("SELECT Room.room_category, RoomType.number_people, RoomType.cost, RoomType.cost_extra_bed, Room.room_location, Room.room_number FROM Room INNER JOIN RoomType ON Room.room_category = RoomType.room_category where Room.room_location='%s' ; " % location)
+        room_instance = cur.fetchall()
+        for val in room_instance:
+            room_category = val[0]
+            num_people = val[1]
+            cost = val[2]
+            cost_extra_bed = val[3]
+            room_location = val[4]
+            room_num = val[5]
+            all_rooms.add(Room(num_people, room_category, cost, cost_extra_bed, room_num, room_location))
+        cur.close()
+        return all_rooms
     @classmethod
     def get_reservations_by_username(cls, username):
         reservation_list = []

@@ -68,6 +68,7 @@ input, label, button, textarea, ul, li, label
     position:absolute;
     display:block;
     top:-25%;
+    background:url({{ url_for('static', filename = 'images/texture.jpg') }});
     left:-25%;
     width:150%;
     height:150%;
@@ -170,20 +171,25 @@ input, label, button, textarea, ul, li, label
         background:#0ae;
         opacity:.5;
     }
+     .unavailable:hover>li
+    {
+        background-color: red;
+        opacity: 0.5;
+    }
 .building:active
 {
     -webkit-transform: translateZ(50px) scale3d(1, 1, 4);
     background:#09c;
 }
-    .building:active>li
-    {
-        background:#09c;
-        opacity:.75;
-        -webkit-animation-play-state: paused;
-    -moz-animation-play-state: paused;
-    -o-animation-play-state: paused;
-     animation-play-state: paused;
-    }
+.building:active>li
+{
+    background:#09c;
+    opacity:.75;
+    -webkit-animation-play-state: paused;
+-moz-animation-play-state: paused;
+-o-animation-play-state: paused;
+ animation-play-state: paused;
+}
 
 .building>li
 {
@@ -224,7 +230,7 @@ input, label, button, textarea, ul, li, label
     -webkit-transform-origin:0 0;
     -webkit-transform:rotate3d(1,0,0,90deg);
 }
-.building .south
+.building .south 
 {
     background:rgba(255,204,0,1);
     width:50px;
@@ -390,7 +396,7 @@ input, label, button, textarea, ul, li, label
                     <th>Cost of Extra Bed Per Day</th>
                     <th>Select Room</th>
                 </tr>
-                {% for room in available_rooms %}
+                {% for room in all_rooms %}
                     <tr id ="{{loop.index}}">
                         <td>{{ room.room_num }}</td>
                         <td>{{ room.category }}</td>
@@ -410,95 +416,15 @@ input, label, button, textarea, ul, li, label
     <div id="world" class="world">
 
     <h1 class="ground">ground</h1>
-
-    <ul class="building block-1">Building
+    {% for room in all_rooms %}
+    <ul class="building block-{{loop.index}}">Building
         <li class="top">roof</li>
         <li class="west">west wall</li>
         <li class="north">north wall</li>
         <li class="east">east wall</li>
         <li class="south">south wall</li>
     </ul>
-
-    <ul class="building block-2">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-3">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-4">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-5">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-6">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-7">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-8">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-9">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-10">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
-    <ul class="building block-11">Building
-        <li class="top">roof</li>
-        <li class="west">west wall</li>
-        <li class="north">north wall</li>
-        <li class="east">east wall</li>
-        <li class="south">south wall</li>
-    </ul>
-    
+    {% endfor %}
     <ul class="car car-1">Car
         <li class="roof">roof</li>
         <li class="door-left">door left</li>
@@ -531,6 +457,7 @@ input, label, button, textarea, ul, li, label
 <div class = "selector">
 
 </div>
+<!-- The loop.index of Jinja templates starts from 1 instead of zero. Hence for iterating over mapping object defined in js we have used i-1. However, the IDs of the checkboxes were indeed generated by loop.index again, hence, they have been again iterated over via i amd not i-1. -->
 <script type="text/javascript">
     var mapping = [{% for room in available_rooms %}{
                         "id": {{loop.index}},
@@ -544,17 +471,36 @@ input, label, button, textarea, ul, li, label
                 ];
     $('.building').hover(function(){
         var id = $(this).attr('class').substr(-1);
-        console.log(mapping[id]);
+        console.log('hover',mapping[id-1]);
+
         $('.selector').empty();
-        $('.selector').append("Room Number: " + mapping[id].name+"<br>Category:" + mapping[id].category + "<br>num_people:" + mapping[id].num_people+"<br>Cost:"+mapping[id].cost+"<br>Extra-Bed:" + mapping[id].Extra);
+        if(mapping[id-1]){
+
+        $('.selector').append("Room Number: " + mapping[id-1].name+"<br>Category:" + mapping[id-1].category + "<br>num_people:" + mapping[id-1].num_people+"<br>Cost:"+mapping[id-1].cost+"<br>Extra-Bed:" + mapping[id-1].Extra);
+    }
+    else
+    {
+        $('.selector').append("Sorry, already booked :( ");
+        $(this).addClass('unavailable');
+    }
 
     });
     $('.building').click(function(){
+                var id = $(this).attr('class').substr(-1);
+
+                console.log(1,mapping[id-1]);
+
+        if(mapping[id-1]){
         var id = $(this).attr('class').substr(-1);
-        console.log(mapping[id]);
+        console.log(mapping[id-1]);
         var checkBox = 'c-'+id;
         $('#'+checkBox).prop('checked',true);
         $('#submitButton').click();
+    }
+    else
+    {
+        return;
+    }
 
 
   
