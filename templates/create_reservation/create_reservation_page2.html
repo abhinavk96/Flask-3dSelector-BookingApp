@@ -1,6 +1,7 @@
 {% extends "index/index.html" %}
 {% block head %}
     {{ super() }}
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
 {% endblock %}
 
 {% block content %}
@@ -380,8 +381,8 @@ input, label, button, textarea, ul, li, label
         display: none;
     }
     </style>
-    <div class="jumbotron">
-    <h1>Available Rooms in {{ location }}</h1>
+    <div class="jumbotron" style="background-color: #1f2224; height: 20vmin;">
+    <h1 style="color:#eeeeee; margin-left: 10vmin;"> Available Rooms in {{ location }}</h1>
     <form action="" method="post" name="createReservation2">
     {% if error %}
         <h5 style="color:red;">Error: {{ error }} </h5>
@@ -410,7 +411,7 @@ input, label, button, textarea, ul, li, label
 
 
 
-                {{ form.submit(id = "submitButton" ,class_="btn btn-default right-align") }}
+                {{ form.submit(id = "submitButton" ,class_="btn btn-default right-align", style="margin-left : 10vmin;") }}
     </form>
     </div>
     <div id="world" class="world">

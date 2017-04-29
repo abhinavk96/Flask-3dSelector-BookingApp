@@ -12,7 +12,7 @@ SECRET_KEY = 'Abhinav'
 
 # MYSQL SETTINGS
 MYSQL_USER = 'root'
-MYSQL_PASSWORD = ''
+MYSQL_PASSWORD = 'iita123'
 MYSQL_DB = 'reservation_db'
 MYSQL_HOST = 'localhost'
 MYSQL_PORT = 3306

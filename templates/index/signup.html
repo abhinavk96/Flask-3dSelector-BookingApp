@@ -2,10 +2,13 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/static/css/signin.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+<div style=" background: url({{url_for('static', filename='images/blurred1.jpg')}}); height:100vh; overflow: hidden; background-size: cover;">
+
+    <div class="container" style="background-color: #1f2224;">
         <form class="form-signin" action="" method="post" name="signup">
             {{ form.hidden_tag }}
             {% if error %}
@@ -25,10 +28,10 @@
                 {{ form.password_verify(class_="form-control", placeholder="Repeat Password") }}
             </div>
             <div class="checkbox">
-              <label><input type="checkbox"> Remember me</label>
+              <label><input type="checkbox">Remember me</label>
             </div>
             {{ form.sign_up(class_="btn btn-default") }}
 
             </form>
-    </div>
+    </div></div>
 {% endblock %}

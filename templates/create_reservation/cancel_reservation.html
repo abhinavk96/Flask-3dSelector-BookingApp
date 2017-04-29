@@ -1,12 +1,12 @@
 {% extends "index/index.html" %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="/static/css/style.css">
+    <!--<link rel="stylesheet" href="/static/css/style.css">-->
 {% endblock %}
 
 {% block content %}
 
-    <div class="container user-index-padding">
+    <div class="container user-index-padding" style="background-color: #1f2224; font-weight: 500;">
         {% if error %}
             <h5 style="color:red;">Error: {{ error }} </h5>
         {% endif %}
@@ -16,7 +16,7 @@
 
                 </div>
                 <div class="row">
-                    <h4 class="col-md-2 text-left">Delete Reservation:</h4>
+                    <h4 class="col-md-2 text-left" style="color: #eeeeee">Delete Reservation:</h4>
                 </div>
         <table class="table table-striped table-bordered table-condensed">
             <tr>
@@ -27,7 +27,7 @@
                 <th>Choose Reservation</th>
             </tr>
             {% for reservation in reservation_list %}
-                <tr>
+                <tr >
                     <td>{{ reservation.reservation_id }}</td>
                     <td>{{ reservation.start_date }}</td>
                     <td>{{ reservation.end_date }}</td>
@@ -36,7 +36,7 @@
                 </tr>
             {% endfor %}
         </table>
-            {{ form.submit(class_="btn btn-default right-align") }}
+            {{ form.submit(class_="btn btn-default right-align", style="color:#eeeeee; background-color : rgb(231, 100, 100);") }}
         </form>
     </div>
 {% endblock %}
